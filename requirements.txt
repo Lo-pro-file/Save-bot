@@ -1,5 +1,5 @@
 #Github.com-Vasusen-code
-
+decouple
 https://github.com/vasusen-code/Telethon/archive/refs/tags/v1.24.0.zip
 telethon
 cryptg
