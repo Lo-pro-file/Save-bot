@@ -92,17 +92,14 @@ async def run_batch(userbot, client, sender, range_, countdown, link):
             timer = 10
         if i < 100 and i > 50:
             timer = 15
-        if not 't.me/c/' in link:
-            if i < 25:
-                timer = 2
-            else:
-                timer = 3
+        if 't.me/c/' not in link:
+            timer = 2 if i < 25 else 3
         try: 
             check_ = batch_[0]
             count_down = f"**Batch process ongoing.**\n\nProcess completed: {i+1}"
-            out = await get_bulk_msg(userbot, client, sender, link, i) 
-            if not out == None:
-                if out - 5 > 300:
+            out = await get_bulk_msg(userbot, client, sender, link, i)
+            if out is not None:
+                if out > 305:
                     await client.send_message(sender, f'You have floodwaits of {out - 5} seconds, cancelling batch') 
                     batch_.clear()
                     break
@@ -110,7 +107,7 @@ async def run_batch(userbot, client, sender, range_, countdown, link):
                     fw_alert = await client.send_message(sender, f'Sleeping for {out} second(s) due to telegram flooodwait.')
                     await asyncio.sleep(out)
                     await fw_alert.delete()
-                    await get_bulk_msg(userbot, client, sender, link, i) 
+                    await get_bulk_msg(userbot, client, sender, link, i)
             protection = await client.send_message(sender, f"Sleeping for `{timer}` seconds to avoid Floodwaits and Protect account!")
             await countdown.edit(count_down)
             await asyncio.sleep(timer)
@@ -121,6 +118,6 @@ async def run_batch(userbot, client, sender, range_, countdown, link):
             break
         except Exception as e:
             print(e)
-            if not countdown.text == count_down:
+            if countdown.text != count_down:
                 await countdown.edit(count_down)
                 
